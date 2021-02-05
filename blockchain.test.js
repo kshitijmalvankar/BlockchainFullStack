@@ -3,10 +3,13 @@ const Block = require('./block');
 
 
 describe('Blockchain',()=>{
-    let blockchain;
+    let blockchain, newChain, originalChain;
 
     beforeEach(()=>{
         blockchain = new Blockchain();
+        newChain = new Blockchain();
+
+        originalChain = blockchain.chain;
     })
 
     it('contains a `chain` Array instance',()=>{
@@ -65,6 +68,45 @@ describe('Blockchain',()=>{
                     expect(Blockchain.isValidChain(blockchain.chain)).toBe(true);
                 });
             });
+        });
+    });
+
+    describe('replaceChain()',()=>{
+        describe('when new chain is not longer',()=>{
+            it('ddoes not replace the chain',()=>{
+                newChain.chain[0] = {new: 'chain'};
+
+                blockchain.replaceChain(newChain.chain);
+
+
+                expect(blockchain.chain).toEqual(originalChain);
+            });
+        });
+
+        describe('when the chain is longer',()=>{
+            beforeEach(()=>{
+                newChain.addBlock({ data: 'Data'});
+                newChain.addBlock({ data: 'Data 2'});
+                newChain.addBlock({ data: 'Data 3'});
+            });
+            describe('chain is invalid',()=>{
+                it('ddoes not replace the chain',()=>{
+                    newChain.chain[2].hash = 'fake-hash';
+
+                    blockchain.replaceChain(newChain.chain);
+
+                    expect(blockchain.chain).toEqual(originalChain);
+                });
+            });
+
+            describe('chain is valid',()=>{
+                it('replaces the chain',()=>{
+                    blockchain.replaceChain(newChain.chain);
+
+                    expect(blockchain.chain).toEqual(newChain.chain);
+                });
+            });
+
         });
     });
 });
