@@ -4,6 +4,8 @@ const GENESIS_DATA = {
     timestamp: 1,
     lastHash: '-----',
     hash: 'Genesis-Hash',
+    difficulty: INITIAL_DIFFICULTY,
+    nonce: 0,
     data:[]
 };
 
