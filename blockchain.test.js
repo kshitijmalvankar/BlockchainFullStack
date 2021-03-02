@@ -61,7 +61,7 @@ describe('Blockchain',()=>{
                     const lastHash = lastBlock.hash;
                     const timestamp = Date.now();
                     const nonce = 0;
-                    const data = [];
+                    const data = [];  
                     const difficulty = lastBlock.difficulty - 3;
 
                     const hash = cryptoHash(timestamp, lastHash, difficulty, nonce, data);
